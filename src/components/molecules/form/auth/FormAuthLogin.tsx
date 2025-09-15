@@ -55,7 +55,7 @@ export default function FormAuthLogin() {
 
     toast.success("Login Berhasil!", {
       description:
-        "Selamat datang di Fitbite! Anda akan diarahkan ke halaman dashboard.",
+        "Selamat datang di SIKIMAK! Anda akan diarahkan ke halaman dashboard.",
     });
 
     router.push("/");
@@ -63,7 +63,7 @@ export default function FormAuthLogin() {
 
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <Card className="w-full border-0 shadow-transparent">
+      <Card className="bg-background w-full border-0 shadow-transparent">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold tracking-tight">
             Masuk
@@ -80,7 +80,7 @@ export default function FormAuthLogin() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email / Username / Nomor Telepon</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
                         type="text"
