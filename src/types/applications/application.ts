@@ -10,6 +10,7 @@ export interface Application {
   notes?: string;
   deadline: Date;
   work_location: string;
+  submitted_status: string;
   created_at: Date;
   updated_at: Date;
 }

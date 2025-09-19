@@ -12,6 +12,8 @@ import {
 interface PaginationControlsProps {
   currentPage: number;
   lastPage: number;
+  perPage: number;
+  total: number;
   onPageChange: (page: number) => void;
 }
 
@@ -44,50 +46,61 @@ function getPaginationRange(
 export function PaginationControls({
   currentPage,
   lastPage,
+  perPage,
+  total,
   onPageChange,
 }: PaginationControlsProps) {
   const pages = getPaginationRange(currentPage, lastPage);
 
+  const from = (currentPage - 1) * perPage + 1;
+  const to = Math.min(currentPage * perPage, total);
+
   return (
-    <Pagination className="justify-end font-normal">
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
-            onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
-            className={
-              currentPage === 1 ? "pointer-events-none opacity-50" : ""
-            }
-          />
-        </PaginationItem>
+    <div className="flex w-full flex-col gap-6 md:flex-row md:justify-between md:gap-0">
+      <p className="text-muted-foreground w-full text-center text-sm md:text-left">
+        Menampilkan {from} - {to} dari {total} data
+      </p>
 
-        {pages.map((page, idx) =>
-          page === "..." ? (
-            <PaginationItem key={`ellipsis-${idx}`}>
-              <span className="px-3">…</span>
-            </PaginationItem>
-          ) : (
-            <PaginationItem key={page}>
-              <PaginationLink
-                isActive={page === currentPage}
-                onClick={() => onPageChange(page)}
-              >
-                {page}
-              </PaginationLink>
-            </PaginationItem>
-          ),
-        )}
+      <Pagination className="font-normal md:justify-end">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
+              className={
+                currentPage === 1 ? "pointer-events-none opacity-50" : ""
+              }
+            />
+          </PaginationItem>
 
-        <PaginationItem>
-          <PaginationNext
-            onClick={() =>
-              currentPage < lastPage && onPageChange(currentPage + 1)
-            }
-            className={
-              currentPage === lastPage ? "pointer-events-none opacity-50" : ""
-            }
-          />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+          {pages.map((page, idx) =>
+            page === "..." ? (
+              <PaginationItem key={`ellipsis-${idx}`}>
+                <span className="px-3">…</span>
+              </PaginationItem>
+            ) : (
+              <PaginationItem key={page}>
+                <PaginationLink
+                  isActive={page === currentPage}
+                  onClick={() => onPageChange(page)}
+                >
+                  {page}
+                </PaginationLink>
+              </PaginationItem>
+            ),
+          )}
+
+          <PaginationItem>
+            <PaginationNext
+              onClick={() =>
+                currentPage < lastPage && onPageChange(currentPage + 1)
+              }
+              className={
+                currentPage === lastPage ? "pointer-events-none opacity-50" : ""
+              }
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </div>
   );
 }

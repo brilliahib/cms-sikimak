@@ -6,10 +6,6 @@ import { id } from "date-fns/locale";
 import Link from "next/link";
 import {
   Eye,
-  FileText,
-  UserRound,
-  Briefcase,
-  CheckCircle,
   Clock,
   CheckCircle2,
   XCircle,
@@ -26,24 +22,52 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Application } from "@/types/applications/application";
 
-const applyStatusConfig: Record<
-  string,
-  { icon: React.ElementType; color: string }
-> = {
-  "CV Screening": { icon: FileText, color: "text-foreground" },
-  Interview: { icon: UserRound, color: "text-foreground" },
-  Test: { icon: CheckCircle2, color: "text-foreground" },
-  Selesai: { icon: CheckCircle, color: "text-green-500" },
-};
-
 const approvalStatusConfig: Record<
   string,
-  { icon: React.ElementType; color: string; label: string }
+  { icon: React.ElementType; bg: string; text: string; label: string }
 > = {
-  pending: { icon: Clock, color: "text-yellow-500", label: "Menunggu" },
-  accepted: { icon: CheckCircle2, color: "text-green-500", label: "Diterima" },
-  rejected: { icon: XCircle, color: "text-red-500", label: "Ditolak" },
-  ghosting: { icon: Ghost, color: "text-gray-500", label: "Tidak Ada Kabar" },
+  pending: {
+    icon: Clock,
+    bg: "bg-yellow-100",
+    text: "text-yellow-700",
+    label: "Menunggu",
+  },
+  accepted: {
+    icon: CheckCircle2,
+    bg: "bg-green-100",
+    text: "text-green-700",
+    label: "Diterima",
+  },
+  rejected: {
+    icon: XCircle,
+    bg: "bg-red-100",
+    text: "text-red-700",
+    label: "Ditolak",
+  },
+  ghosting: {
+    icon: Ghost,
+    bg: "bg-gray-100",
+    text: "text-gray-700",
+    label: "Tidak Ada Kabar",
+  },
+};
+
+const submittedStatusConfig: Record<
+  string,
+  { icon: React.ElementType; bg: string; text: string; label: string }
+> = {
+  submitted: {
+    icon: CheckCircle2,
+    bg: "bg-green-100",
+    text: "text-green-700",
+    label: "Sudah submit",
+  },
+  "not submitted": {
+    icon: XCircle,
+    bg: "bg-gray-100",
+    text: "text-gray-700",
+    label: "Belum submit",
+  },
 };
 
 export const applicationColumns: ColumnDef<Application>[] = [
@@ -81,39 +105,40 @@ export const applicationColumns: ColumnDef<Application>[] = [
     cell: ({ row }) => <p>{row.original.company_location}</p>,
   },
   {
-    accessorKey: "apply_status",
-    header: "Tahap",
+    accessorKey: "submitted_status",
+    header: "Status Submit",
     cell: ({ row }) => {
-      const status = row.original.apply_status;
-      const config = applyStatusConfig[status] || {
-        icon: FileText,
-        color: "text-gray-500",
-      };
+      const status = row.original.submitted_status?.toLowerCase();
+      const config = status ? submittedStatusConfig[status] : null;
+
+      if (!config) return <p>-</p>;
       const Icon = config.icon;
 
       return (
-        <Badge variant="outline" className="flex items-center gap-1">
-          <Icon className={`h-4 w-4 ${config.color}`} />
-          {status}
+        <Badge
+          className={`flex w-fit items-center gap-1 rounded-md px-2 py-1 ${config.bg} ${config.text}`}
+        >
+          <Icon className="h-4 w-4" />
+          {config.label}
         </Badge>
       );
     },
   },
   {
     accessorKey: "approval_status",
-    header: "Status",
+    header: "Status Lamaran",
     cell: ({ row }) => {
-      const status = row.original.approval_status;
-      const config = approvalStatusConfig[status] || {
-        icon: Clock,
-        color: "text-gray-500",
-        label: status,
-      };
+      const status = row.original.approval_status?.toLowerCase();
+      const config = status ? approvalStatusConfig[status] : null;
+
+      if (!config) return <p>-</p>;
       const Icon = config.icon;
 
       return (
-        <Badge variant="outline" className="flex items-center gap-1">
-          <Icon className={`h-4 w-4 ${config.color}`} />
+        <Badge
+          className={`flex w-fit items-center gap-1 rounded-md px-2 py-1 ${config.bg} ${config.text}`}
+        >
+          <Icon className="h-4 w-4" />
           {config.label}
         </Badge>
       );

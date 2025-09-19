@@ -44,11 +44,13 @@ export default function DashboardApplicationWrapper() {
         isLoading={isPending}
       />
 
-      <div className="flex items-end justify-end">
+      <div className="w-full">
         {data?.pagination && (
           <PaginationControls
             currentPage={page}
             lastPage={data.pagination.last_page}
+            perPage={data.pagination.per_page}
+            total={data.pagination.total}
             onPageChange={setPage}
           />
         )}
