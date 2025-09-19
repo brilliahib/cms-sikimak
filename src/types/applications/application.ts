@@ -9,6 +9,13 @@ export interface Application {
   application_category: string;
   notes?: string;
   deadline: Date;
+  work_location: string;
   created_at: Date;
   updated_at: Date;
+}
+
+export interface ApplicationSummary {
+  total_applications: number;
+  total_not_submitted: number;
+  total_accepted: number;
 }

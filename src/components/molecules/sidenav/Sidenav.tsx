@@ -69,7 +69,7 @@ export function SideNav({ session, ...props }: SideNavProps) {
             <SidebarMenuButton asChild className={buttonClass("/applications")}>
               <Link href={"/applications"}>
                 <FilePen />
-                <span>Applications</span>
+                <span>Lamaran</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

@@ -51,6 +51,8 @@ export default function FormCreateApplication() {
       application_category: "",
       notes: "",
       deadline: "",
+      work_location: "",
+      submitted_status: "not submitted",
     },
     mode: "onChange",
   });
@@ -296,6 +298,35 @@ export default function FormCreateApplication() {
 
           <FormField
             control={form.control}
+            name="submitted_status"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Status Submit <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value ?? ""}
+                  >
+                    <SelectTrigger className="h-10 w-full">
+                      <SelectValue placeholder="Apakah lamaran anda sudah disubmit?" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="submitted">Sudah Dikirim</SelectItem>
+                      <SelectItem value="not submitted">
+                        Belum Dikirim
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="deadline"
             render={({ field }) => {
               const [time, setTime] = useState("12:00");
@@ -368,28 +399,26 @@ export default function FormCreateApplication() {
               );
             }}
           />
+          <FormField
+            control={form.control}
+            name="notes"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Catatan</FormLabel>
+                <FormControl>
+                  <Textarea
+                    id="notes"
+                    placeholder="Masukkan catatan tambahan"
+                    className="min-h-[100px] resize-y"
+                    {...field}
+                    value={field.value ?? ""}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
-
-        <FormField
-          control={form.control}
-          name="notes"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Catatan</FormLabel>
-              <FormControl>
-                <Textarea
-                  id="notes"
-                  placeholder="Masukkan catatan tambahan"
-                  className="min-h-[100px] resize-y"
-                  {...field}
-                  value={field.value ?? ""}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <div className="flex justify-end">
           <Button
             type="submit"
