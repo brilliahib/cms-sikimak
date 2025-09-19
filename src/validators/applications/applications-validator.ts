@@ -7,6 +7,7 @@ export const applicationsSchema = z.object({
   apply_status: z.string().max(100),
   approval_status: z.string().max(100),
   application_category: z.string().max(100),
+  work_location: z.string().max(100),
   notes: z.string().max(500).nullable().optional(),
   deadline: z.string(),
 });

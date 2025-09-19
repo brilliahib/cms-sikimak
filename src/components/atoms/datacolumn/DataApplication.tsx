@@ -30,9 +30,9 @@ const applyStatusConfig: Record<
   string,
   { icon: React.ElementType; color: string }
 > = {
-  "CV Screening": { icon: FileText, color: "text-gray-500" },
-  "Interview HR": { icon: UserRound, color: "text-blue-500" },
-  "Interview User": { icon: Briefcase, color: "text-yellow-500" },
+  "CV Screening": { icon: FileText, color: "text-foreground" },
+  Interview: { icon: UserRound, color: "text-foreground" },
+  Test: { icon: CheckCircle2, color: "text-foreground" },
   Selesai: { icon: CheckCircle, color: "text-green-500" },
 };
 

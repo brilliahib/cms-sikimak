@@ -1,7 +1,7 @@
 export const statusOptions = [
   "CV Screening",
-  "Interview User",
-  "Interview HR",
+  "Interview",
+  "Test",
   "Selesai",
   "Lainnya",
 ];

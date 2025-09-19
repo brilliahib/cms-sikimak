@@ -139,7 +139,7 @@ export default function FormAuthLogin() {
             <div className="text-center text-sm">
               Belum punya akun? {""}
               <Link
-                href="/register"
+                href="/auth/register"
                 className="text-primary underline underline-offset-4"
               >
                 Daftar Sekarang

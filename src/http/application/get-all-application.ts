@@ -16,9 +16,8 @@ export interface GetAllApplicationResponse {
 }
 
 export interface GetAllApplicationParams {
+  name?: string;
   page?: number;
-  search?: string;
-  per_page?: number;
 }
 
 export const GetAllApplicationHandler = async (

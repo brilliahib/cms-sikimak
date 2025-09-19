@@ -268,18 +268,26 @@ export default function FormCreateApplication() {
 
           <FormField
             control={form.control}
-            name="notes"
+            name="work_location"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Catatan</FormLabel>
+                <FormLabel>
+                  Lokasi Kerja / Magang <span className="text-red-500">*</span>
+                </FormLabel>
                 <FormControl>
-                  <Textarea
-                    id="notes"
-                    placeholder="Masukkan catatan tambahan"
-                    className="min-h-[100px] resize-y"
-                    {...field}
+                  <Select
+                    onValueChange={field.onChange}
                     value={field.value ?? ""}
-                  />
+                  >
+                    <SelectTrigger className="h-10 w-full">
+                      <SelectValue placeholder="Pilih lokasi kerja / magang" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="On-site">On-site</SelectItem>
+                      <SelectItem value="Remote">Remote</SelectItem>
+                      <SelectItem value="Hybrid">Hybrid</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -361,6 +369,26 @@ export default function FormCreateApplication() {
             }}
           />
         </div>
+
+        <FormField
+          control={form.control}
+          name="notes"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Catatan</FormLabel>
+              <FormControl>
+                <Textarea
+                  id="notes"
+                  placeholder="Masukkan catatan tambahan"
+                  className="min-h-[100px] resize-y"
+                  {...field}
+                  value={field.value ?? ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <div className="flex justify-end">
           <Button

@@ -18,7 +18,7 @@ export default function DashboardApplicationWrapper() {
 
   const { data, isPending } = useGetAllApplication(
     session?.access_token as string,
-    { page, search, per_page: 10 },
+    { name: search, page },
     { enabled: status === "authenticated" },
   );
 
@@ -47,7 +47,7 @@ export default function DashboardApplicationWrapper() {
       <div className="flex items-end justify-end">
         {data?.pagination && (
           <PaginationControls
-            currentPage={data.pagination.current_page}
+            currentPage={page}
             lastPage={data.pagination.last_page}
             onPageChange={setPage}
           />
