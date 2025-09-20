@@ -47,9 +47,9 @@ export function SideNav({ session, ...props }: SideNavProps) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="/">
+              <Link href={"/"}>
                 <span className="text-base font-semibold">SIKIMAK</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

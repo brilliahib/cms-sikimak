@@ -76,6 +76,8 @@ export default function FormUpdateApplication({
 
   const queryClient = useQueryClient();
   const router = useRouter();
+  const [custom, setCustom] = useState(false);
+  const [time, setTime] = useState("12:00");
 
   const { mutate: updateApplicationHandler, isPending } = useUpdateApplication({
     onError: (err) => {
@@ -206,8 +208,6 @@ export default function FormUpdateApplication({
             control={form.control}
             name="apply_status"
             render={({ field }) => {
-              const [custom, setCustom] = useState(false);
-
               return (
                 <FormItem>
                   <FormLabel>
@@ -345,7 +345,6 @@ export default function FormUpdateApplication({
             control={form.control}
             name="deadline"
             render={({ field }) => {
-              const [time, setTime] = useState("12:00");
               const dateValue = field.value ? new Date(field.value) : undefined;
 
               return (
