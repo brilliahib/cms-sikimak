@@ -1,7 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -10,12 +11,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { useQueryClient } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
+import { Application } from "@/types/applications/application";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  applicationsSchema,
+  ApplicationsType,
+} from "@/validators/applications/applications-validator";
+import { useUpdateApplication } from "@/http/application/update-application";
 import {
   Select,
   SelectContent,
@@ -23,68 +29,75 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { useCreateApplication } from "@/http/application/create-application";
-import { categoryOptions, statusOptions } from "@/utils/data-select";
-import { serverToInputDatetimeFlexible } from "@/utils/server-time";
 import {
-  applicationsSchema,
-  ApplicationsType,
-} from "@/validators/applications/applications-validator";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { format } from "date-fns";
 import { CalendarIcon, Clock } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { categoryOptions, statusOptions } from "@/utils/data-select";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { serverToInputDatetimeFlexible } from "@/utils/server-time";
 
-export default function FormCreateApplication() {
+interface FormUpdateApplicationProps {
+  id: number;
+  data?: Application;
+}
+
+export default function FormUpdateApplication({
+  id,
+  data,
+}: FormUpdateApplicationProps) {
+  const defaultValues = useMemo(
+    () => ({
+      title: data?.title || "",
+      company_name: data?.company_name || "",
+      company_location: data?.company_location || "",
+      application_category: data?.application_category || "",
+      work_location: data?.work_location || "",
+      apply_status: data?.apply_status || "",
+      approval_status: data?.approval_status || "",
+      notes: data?.notes || "",
+      submitted_status: data?.submitted_status || "",
+      deadline: data?.deadline
+        ? serverToInputDatetimeFlexible(data.deadline as string)
+        : "",
+    }),
+    [data],
+  );
+
   const form = useForm<ApplicationsType>({
     resolver: zodResolver(applicationsSchema),
-    defaultValues: {
-      title: "",
-      company_name: "",
-      company_location: "",
-      apply_status: "",
-      approval_status: "",
-      application_category: "",
-      notes: "",
-      deadline: "",
-      work_location: "",
-      submitted_status: "not submitted",
-    },
+    defaultValues: defaultValues,
     mode: "onChange",
   });
 
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const { mutate: CreateApplicationHandlers, isPending } = useCreateApplication(
-    {
-      onError: () => {
-        toast.error("Gagal menambahkan lamaran!");
-      },
-      onSuccess: () => {
-        toast.success("Berhasil menambahkan lamaran baru!");
-        queryClient.invalidateQueries({
-          queryKey: ["get-all-applications"],
-        });
-        router.push("/applications");
-      },
+  const { mutate: updateApplicationHandler, isPending } = useUpdateApplication({
+    onError: (err) => {
+      toast.error("Gagal memperbarui Lamaran!", {
+        description: err.message,
+      });
     },
-  );
+    onSuccess: () => {
+      toast.success("Berhasil memperbarui Lamaran!");
+      queryClient.invalidateQueries({
+        queryKey: ["get-all-applications"],
+      });
+      router.push("/applications");
+    },
+  });
 
   const onSubmit = (body: ApplicationsType) => {
     const payload = {
       ...body,
-      deadline: body.deadline
-        ? serverToInputDatetimeFlexible(body.deadline)
-        : "",
+      deadline: serverToInputDatetimeFlexible(body.deadline),
     };
-
-    CreateApplicationHandlers(payload);
+    updateApplicationHandler({ id, body: payload });
   };
 
   return (

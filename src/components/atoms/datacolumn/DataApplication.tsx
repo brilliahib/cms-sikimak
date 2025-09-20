@@ -64,8 +64,8 @@ const submittedStatusConfig: Record<
   },
   "not submitted": {
     icon: XCircle,
-    bg: "bg-gray-100",
-    text: "text-gray-700",
+    bg: "bg-red-100",
+    text: "text-red-700",
     label: "Belum submit",
   },
 };
@@ -185,13 +185,13 @@ export const applicationColumns = (
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <div
-              className="flex cursor-pointer items-center text-yellow-600"
-              onClick={() => props.deleteApplicationHandler(data)}
+            <Link
+              href={`/applications/${data.id}/edit`}
+              className="flex items-center text-yellow-600"
             >
               <SquarePen className="h-4 w-4 text-yellow-600" />
               <span className="ml-2">Edit</span>
-            </div>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <div

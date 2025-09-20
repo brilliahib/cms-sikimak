@@ -8,7 +8,7 @@ export interface Application {
   approval_status: string;
   application_category: string;
   notes?: string;
-  deadline: Date;
+  deadline: string;
   work_location: string;
   submitted_status: string;
   created_at: Date;
