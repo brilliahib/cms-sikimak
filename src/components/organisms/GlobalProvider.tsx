@@ -20,7 +20,7 @@ export default function GlobalProvider({ children }: PropsWithChildren) {
     <>
       <ThemeProvider
         attribute="class"
-        defaultTheme="dark"
+        defaultTheme="system"
         enableSystem
         disableTransitionOnChange
       >
