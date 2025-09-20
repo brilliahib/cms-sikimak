@@ -14,7 +14,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Application } from "@/types/applications/application";
 import {
@@ -64,6 +64,8 @@ export default function FormUpdateApplication({
       deadline: data?.deadline
         ? serverToInputDatetimeFlexible(data.deadline as string)
         : "",
+      application_link: data?.application_link || "",
+      poster_link: data?.poster_link || "",
     }),
     [data],
   );
@@ -73,6 +75,12 @@ export default function FormUpdateApplication({
     defaultValues: defaultValues,
     mode: "onChange",
   });
+
+  useEffect(() => {
+    if (data) {
+      form.reset(defaultValues);
+    }
+  }, [data, defaultValues, form]);
 
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -343,6 +351,48 @@ export default function FormUpdateApplication({
 
           <FormField
             control={form.control}
+            name="application_link"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Link Lamaran</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    id="application_link"
+                    placeholder="Masukkan link lamaran (gform, email, dll)"
+                    {...field}
+                    value={field.value ?? ""}
+                    className="h-10"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="poster_link"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Link Poster</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    id="poster_link"
+                    placeholder="Masukkan link poster lamaran (instagram, linkedin, dll)"
+                    {...field}
+                    value={field.value ?? ""}
+                    className="h-10"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="deadline"
             render={({ field }) => {
               const dateValue = field.value ? new Date(field.value) : undefined;
@@ -441,7 +491,7 @@ export default function FormUpdateApplication({
             disabled={isPending}
             className="text-white"
           >
-            {isPending ? "Loading..." : "Tambahkan"}
+            {isPending ? "Loading..." : "Simpan Perubahan"}
           </Button>
         </div>
       </form>

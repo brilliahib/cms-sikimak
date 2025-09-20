@@ -11,6 +11,8 @@ export interface Application {
   deadline: string;
   work_location: string;
   submitted_status: string;
+  application_link?: string;
+  poster_link?: string;
   created_at: Date;
   updated_at: Date;
 }

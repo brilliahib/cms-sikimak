@@ -54,6 +54,8 @@ export default function FormCreateApplication() {
       deadline: "",
       work_location: "",
       submitted_status: "not submitted",
+      application_link: "",
+      poster_link: "",
     },
     mode: "onChange",
   });
@@ -330,6 +332,48 @@ export default function FormCreateApplication() {
 
           <FormField
             control={form.control}
+            name="application_link"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Link Lamaran</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    id="application_link"
+                    placeholder="Masukkan link lamaran (gform, email, dll)"
+                    {...field}
+                    value={field.value ?? ""}
+                    className="h-10"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="poster_link"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Link Poster</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    id="poster_link"
+                    placeholder="Masukkan link poster lamaran (instagram, linkedin, dll)"
+                    {...field}
+                    value={field.value ?? ""}
+                    className="h-10"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="deadline"
             render={({ field }) => {
               const dateValue = field.value ? new Date(field.value) : undefined;
@@ -401,6 +445,7 @@ export default function FormCreateApplication() {
               );
             }}
           />
+
           <FormField
             control={form.control}
             name="notes"

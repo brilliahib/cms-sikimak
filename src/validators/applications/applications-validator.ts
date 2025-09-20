@@ -11,6 +11,8 @@ export const applicationsSchema = z.object({
   submitted_status: z.string().max(100),
   notes: z.string().max(500).nullable().optional(),
   deadline: z.string(),
+  application_link: z.string().url().max(500).nullable().optional(),
+  poster_link: z.string().url().max(500).nullable().optional(),
 });
 
 export type ApplicationsType = z.infer<typeof applicationsSchema>;

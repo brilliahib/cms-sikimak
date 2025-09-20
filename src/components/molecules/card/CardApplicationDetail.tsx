@@ -6,6 +6,8 @@ import { Application } from "@/types/applications/application";
 import { CheckCircle2, Clock, XCircle, Ghost } from "lucide-react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
+import Link from "next/link";
+import ExternalLink from "@/components/atoms/link/ExternalLink";
 
 interface CardApplicationDetailProps {
   data?: Application;
@@ -142,12 +144,37 @@ export default function CardApplicationDetail({
                 : "-"}
             </h3>
           </div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <span className="text-muted-foreground">Catatan</span>
-          <h3 className="font-medium capitalize">
-            {data?.notes ?? "Tidak ada catatan"}
-          </h3>
+
+          <div className="flex flex-col gap-2">
+            <span className="text-muted-foreground">Link Lamaran</span>
+            {data?.application_link ? (
+              <ExternalLink href={data.application_link}>
+                {data.application_link}
+              </ExternalLink>
+            ) : (
+              <h3 className="font-medium">-</h3>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <span className="text-muted-foreground">
+              Poster Lamaran (Instagram, Linkedin, dll)
+            </span>
+            {data?.poster_link ? (
+              <ExternalLink href={data.poster_link}>
+                {data.poster_link}
+              </ExternalLink>
+            ) : (
+              <h3 className="font-medium">-</h3>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <span className="text-muted-foreground">Catatan</span>
+            <h3 className="font-medium capitalize">
+              {data?.notes ?? "Tidak ada catatan"}
+            </h3>
+          </div>
         </div>
       </CardContent>
     </Card>
