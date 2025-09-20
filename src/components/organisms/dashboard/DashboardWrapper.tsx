@@ -18,10 +18,11 @@ export default function DashboardWrapper() {
     useGetSummaryApplication(session?.access_token as string, {
       enabled: status === "authenticated",
     });
+
   return (
     <section className="flex flex-col gap-6">
-      <CardDashboardSummary data={summary?.data} />
-      <CalendarApplication data={data?.data} />
+      <CardDashboardSummary data={summary?.data} isLoading={isSummaryPending} />
+      <CalendarApplication data={data?.data} isLoading={isPending} />
     </section>
   );
 }

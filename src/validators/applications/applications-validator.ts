@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import z from "zod";
 
 export const applicationsSchema = z.object({
@@ -10,7 +11,10 @@ export const applicationsSchema = z.object({
   work_location: z.string().max(100),
   submitted_status: z.string().max(100),
   notes: z.string().max(500).nullable().optional(),
-  deadline: z.string(),
+  deadline: z.string().transform((val) => {
+    const date = new Date(val);
+    return format(date, "yyyy-MM-dd HH:mm");
+  }),
 });
 
 export type ApplicationsType = z.infer<typeof applicationsSchema>;

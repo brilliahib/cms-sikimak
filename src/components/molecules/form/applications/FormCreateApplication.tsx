@@ -78,7 +78,7 @@ export default function FormCreateApplication() {
   const onSubmit = (body: ApplicationsType) => {
     const payload = {
       ...body,
-      deadline: format(new Date(body.deadline), "yyyy-MM-dd"),
+      deadline: format(new Date(body.deadline), "yyyy-MM-dd HH:mm"),
     };
 
     CreateApplicationHandlers(payload);

@@ -4,6 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Application } from "@/types/applications/application";
 import { CheckCircle2, Clock, XCircle, Ghost } from "lucide-react";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 
 interface CardApplicationDetailProps {
   data?: Application;
@@ -70,7 +72,7 @@ export default function CardApplicationDetail({
 
   return (
     <Card>
-      <CardContent>
+      <CardContent className="space-y-6">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <div className="flex flex-col gap-2">
             <span className="text-muted-foreground">Posisi</span>
@@ -131,11 +133,21 @@ export default function CardApplicationDetail({
           </div>
 
           <div className="flex flex-col gap-2">
-            <span className="text-muted-foreground">Catatan</span>
-            <h3 className="font-medium capitalize">
-              {data?.notes ?? "Tidak ada catatan"}
+            <span className="text-muted-foreground">Tenggat Deadline</span>
+            <h3 className="font-medium">
+              {data?.deadline
+                ? format(new Date(data?.deadline), "EEEE, d MMMM yyyy, HH:mm", {
+                    locale: id,
+                  })
+                : "-"}
             </h3>
           </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <span className="text-muted-foreground">Catatan</span>
+          <h3 className="font-medium capitalize">
+            {data?.notes ?? "Tidak ada catatan"}
+          </h3>
         </div>
       </CardContent>
     </Card>

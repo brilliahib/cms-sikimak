@@ -70,7 +70,13 @@ const submittedStatusConfig: Record<
   },
 };
 
-export const applicationColumns: ColumnDef<Application>[] = [
+interface DataApplicationProps {
+  deleteApplicationHandler: (data: Application) => void;
+}
+
+export const applicationColumns = (
+  props: DataApplicationProps,
+): ColumnDef<Application>[] => [
   {
     id: "no",
     header: "No",
@@ -179,22 +185,22 @@ export const applicationColumns: ColumnDef<Application>[] = [
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link
-              href={`/applications/${data.id}`}
-              className="flex items-center text-yellow-600"
+            <div
+              className="flex cursor-pointer items-center text-yellow-600"
+              onClick={() => props.deleteApplicationHandler(data)}
             >
               <SquarePen className="h-4 w-4 text-yellow-600" />
               <span className="ml-2">Edit</span>
-            </Link>
+            </div>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link
-              href={`/applications/${data.id}`}
-              className="flex items-center text-red-600"
+            <div
+              className="flex cursor-pointer items-center text-red-600"
+              onClick={() => props.deleteApplicationHandler(data)}
             >
               <Trash2 className="h-4 w-4 text-red-600" />
               <span className="ml-2">Hapus</span>
-            </Link>
+            </div>
           </DropdownMenuItem>
         </ActionButton>
       );

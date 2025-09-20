@@ -78,7 +78,7 @@ export function SideNav({ session, ...props }: SideNavProps) {
             <SidebarMenuButton asChild className={buttonClass("/settings")}>
               <Link href={"/settings"}>
                 <Settings2 />
-                <span>Setting</span>
+                <span>Pengaturan</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
